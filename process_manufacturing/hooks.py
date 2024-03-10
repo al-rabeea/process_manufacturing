@@ -1,11 +1,24 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from . import __version__ as app_version
+
 app_name = "process_manufacturing"
 app_title = "Process Manufacturing"
-app_publisher = "ECS"
-app_description = "customization"
-app_email = "info@ecs.com"
-app_license = "mit"
-# required_apps = []
+app_publisher = "earthians"
+app_description = "Process Manufacturing"
+app_icon = "octicon octicon-file-directory"
+app_color = "grey"
+app_email = "info@earthianslive.com"
+app_license = "MIT"
 
+fixtures = [{"dt":"Custom Field", "filters": [["fieldname", "in", ("process_order", "department")]]}]
+
+doc_events = {
+ 	"Stock Entry": {
+        "on_submit": "process_manufacturing.process_manufacturing.doctype.process_order.process_order.manage_se_changes",
+        "on_cancel": "process_manufacturing.process_manufacturing.doctype.process_order.process_order.manage_se_changes"
+    }
+}
 # Includes in <head>
 # ------------------
 
@@ -17,13 +30,6 @@ app_license = "mit"
 # web_include_css = "/assets/process_manufacturing/css/process_manufacturing.css"
 # web_include_js = "/assets/process_manufacturing/js/process_manufacturing.js"
 
-# include custom scss in every website theme (without file extension ".scss")
-# website_theme_scss = "process_manufacturing/public/scss/website"
-
-# include js, css files in header of web form
-# webform_include_js = {"doctype": "public/js/doctype.js"}
-# webform_include_css = {"doctype": "public/css/doctype.css"}
-
 # include js in page
 # page_js = {"page" : "public/js/file.js"}
 
@@ -33,11 +39,6 @@ app_license = "mit"
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
-# Svg Icons
-# ------------------
-# include app icons in desk
-# app_include_icons = "process_manufacturing/public/icons.svg"
-
 # Home Pages
 # ----------
 
@@ -46,8 +47,11 @@ app_license = "mit"
 
 # website user home page (by Role)
 # role_home_page = {
-# 	"Role": "home_page"
+#	"Role": "home_page"
 # }
+
+# Website user home page (by function)
+# get_website_user_home_page = "process_manufacturing.utils.get_home_page"
 
 # Generators
 # ----------
@@ -55,42 +59,11 @@ app_license = "mit"
 # automatically create page for each record of this doctype
 # website_generators = ["Web Page"]
 
-# Jinja
-# ----------
-
-# add methods and filters to jinja environment
-# jinja = {
-# 	"methods": "process_manufacturing.utils.jinja_methods",
-# 	"filters": "process_manufacturing.utils.jinja_filters"
-# }
-
 # Installation
 # ------------
 
 # before_install = "process_manufacturing.install.before_install"
 # after_install = "process_manufacturing.install.after_install"
-
-# Uninstallation
-# ------------
-
-# before_uninstall = "process_manufacturing.uninstall.before_uninstall"
-# after_uninstall = "process_manufacturing.uninstall.after_uninstall"
-
-# Integration Setup
-# ------------------
-# To set up dependencies/integrations with other apps
-# Name of the app being installed is passed as an argument
-
-# before_app_install = "process_manufacturing.utils.before_app_install"
-# after_app_install = "process_manufacturing.utils.after_app_install"
-
-# Integration Cleanup
-# -------------------
-# To clean up dependencies/integrations with other apps
-# Name of the app being uninstalled is passed as an argument
-
-# before_app_uninstall = "process_manufacturing.utils.before_app_uninstall"
-# after_app_uninstall = "process_manufacturing.utils.after_app_uninstall"
 
 # Desk Notifications
 # ------------------
@@ -110,14 +83,6 @@ app_license = "mit"
 # 	"Event": "frappe.desk.doctype.event.event.has_permission",
 # }
 
-# DocType Class
-# ---------------
-# Override standard doctype classes
-
-# override_doctype_class = {
-# 	"ToDo": "custom_app.overrides.CustomToDo"
-# }
-
 # Document Events
 # ---------------
 # Hook on document methods and events
@@ -127,7 +92,7 @@ app_license = "mit"
 # 		"on_update": "method",
 # 		"on_cancel": "method",
 # 		"on_trash": "method"
-# 	}
+#	}
 # }
 
 # Scheduled Tasks
@@ -145,10 +110,10 @@ app_license = "mit"
 # 	],
 # 	"weekly": [
 # 		"process_manufacturing.tasks.weekly"
-# 	],
+# 	]
 # 	"monthly": [
 # 		"process_manufacturing.tasks.monthly"
-# 	],
+# 	]
 # }
 
 # Testing
@@ -156,74 +121,9 @@ app_license = "mit"
 
 # before_tests = "process_manufacturing.install.before_tests"
 
-# Overriding Methods
+# Overriding Whitelisted Methods
 # ------------------------------
 #
 # override_whitelisted_methods = {
 # 	"frappe.desk.doctype.event.event.get_events": "process_manufacturing.event.get_events"
 # }
-#
-# each overriding function accepts a `data` argument;
-# generated from the base implementation of the doctype dashboard,
-# along with any modifications made in other Frappe apps
-# override_doctype_dashboards = {
-# 	"Task": "process_manufacturing.task.get_dashboard_data"
-# }
-
-# exempt linked doctypes from being automatically cancelled
-#
-# auto_cancel_exempted_doctypes = ["Auto Repeat"]
-
-# Ignore links to specified DocTypes when deleting documents
-# -----------------------------------------------------------
-
-# ignore_links_on_delete = ["Communication", "ToDo"]
-
-# Request Events
-# ----------------
-# before_request = ["process_manufacturing.utils.before_request"]
-# after_request = ["process_manufacturing.utils.after_request"]
-
-# Job Events
-# ----------
-# before_job = ["process_manufacturing.utils.before_job"]
-# after_job = ["process_manufacturing.utils.after_job"]
-
-# User Data Protection
-# --------------------
-
-# user_data_fields = [
-# 	{
-# 		"doctype": "{doctype_1}",
-# 		"filter_by": "{filter_by}",
-# 		"redact_fields": ["{field_1}", "{field_2}"],
-# 		"partial": 1,
-# 	},
-# 	{
-# 		"doctype": "{doctype_2}",
-# 		"filter_by": "{filter_by}",
-# 		"partial": 1,
-# 	},
-# 	{
-# 		"doctype": "{doctype_3}",
-# 		"strict": False,
-# 	},
-# 	{
-# 		"doctype": "{doctype_4}"
-# 	}
-# ]
-
-# Authentication and authorization
-# --------------------------------
-
-# auth_hooks = [
-# 	"process_manufacturing.auth.validate"
-# ]
-
-# Automatically update python controller files with type annotations for this app.
-# export_python_type_annotations = True
-
-# default_log_clearing_doctypes = {
-# 	"Logging DocType Name": 30  # days to retain logs
-# }
-
